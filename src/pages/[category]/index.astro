@@ -1,0 +1,86 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import DocSidebar from '../../components/DocSidebar.astro';
+import { fetchCategories, fetchPublishedPages, type DocCategory, type DocPage } from '../../lib/supabase';
+import { getIcon } from '../../lib/icons';
+
+export async function getStaticPaths() {
+  const [categories, pages] = await Promise.all([fetchCategories(), fetchPublishedPages()]);
+  return categories.map((cat) => ({
+    params: { category: cat.slug },
+    props: {
+      category: cat,
+      pages: pages.filter((p) => p.category_id === cat.id),
+      allCategories: categories,
+      allPages: pages,
+    },
+  }));
+}
+
+interface Props {
+  category: DocCategory;
+  pages: DocPage[];
+  allCategories: DocCategory[];
+  allPages: DocPage[];
+}
+
+const { category, pages, allCategories, allPages } = Astro.props;
+const Icon = getIcon(category.icon);
+
+const pagesByCategory = new Map<string, DocPage[]>();
+for (const p of allPages) {
+  if (!pagesByCategory.has(p.category_id)) pagesByCategory.set(p.category_id, []);
+  pagesByCategory.get(p.category_id)!.push(p);
+}
+---
+
+<Layout
+  title={`${category.name} — TrainAR Docs`}
+  description={category.description ?? `Documentation for ${category.name} in TrainAR.`}
+  canonicalPath={`/${category.slug}`}
+>
+  <div class="mx-auto max-w-7xl flex">
+    <DocSidebar
+      categories={allCategories}
+      pagesByCategory={pagesByCategory}
+      activeCategorySlug={category.slug}
+    />
+
+    <div class="flex-1 px-4 sm:px-6 lg:px-10 py-10">
+      <div class="max-w-4xl">
+        <nav class="mb-6 flex items-center gap-2 text-sm text-slate-500">
+          <a href="/" class="hover:text-slate-900 transition">Docs</a>
+          <span class="text-slate-300">/</span>
+          <span class="text-slate-900">{category.name}</span>
+        </nav>
+
+        <div class="mb-8 flex items-start gap-4">
+          <span class="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-blue-50 text-blue-600">
+            <Icon class="h-6 w-6" />
+          </span>
+          <div>
+            <h1 class="text-3xl font-bold tracking-tight text-slate-900">{category.name}</h1>
+            <p class="mt-2 text-base text-slate-600">{category.description}</p>
+          </div>
+        </div>
+
+        <ul class="divide-y divide-slate-200 rounded-xl border border-slate-200 bg-white shadow-sm overflow-hidden">
+          {pages.map((p) => (
+            <li>
+              <a
+                href={`/${category.slug}/${p.slug}`}
+                class="block px-5 py-4 hover:bg-slate-50 transition"
+              >
+                <div class="flex items-baseline justify-between gap-4">
+                  <span class="text-base font-medium text-slate-900">{p.title}</span>
+                  <span class="text-xs text-slate-400">Updated {new Date(p.updated_at).toLocaleDateString('en-GB', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
+                </div>
+                {p.excerpt && <p class="mt-1 text-sm text-slate-600 line-clamp-2">{p.excerpt}</p>}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </div>
+</Layout>

@@ -1,0 +1,41 @@
+---
+import Layout from '../layouts/Layout.astro';
+import DocSidebar from '../components/DocSidebar.astro';
+import CategoryCard from '../components/CategoryCard.astro';
+import { fetchCategories, fetchPublishedPages } from '../lib/supabase';
+
+const [categories, pages] = await Promise.all([fetchCategories(), fetchPublishedPages()]);
+const pagesByCategory = new Map<string, typeof pages>();
+for (const p of pages) {
+  if (!pagesByCategory.has(p.category_id)) pagesByCategory.set(p.category_id, []);
+  pagesByCategory.get(p.category_id)!.push(p);
+}
+---
+
+<Layout
+  title="TrainAR Documentation"
+  description="Set up TrainAR, connect your field-service tools, deploy on AR glasses, and turn senior engineers' know-how into multi-modal training."
+  canonicalPath="/"
+>
+  <div class="mx-auto max-w-7xl flex">
+    <DocSidebar categories={categories} pagesByCategory={pagesByCategory} />
+
+    <div class="flex-1 px-4 sm:px-6 lg:px-10 py-10">
+      <div class="max-w-4xl">
+        <div class="mb-10">
+          <h1 class="text-4xl font-bold tracking-tight text-slate-900">Documentation</h1>
+          <p class="mt-3 text-lg text-slate-600">
+            Set up TrainAR, connect your field-service tools, deploy on AR glasses,
+            and turn senior engineers' know-how into multi-modal training.
+          </p>
+        </div>
+
+        <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {categories.map((cat) => (
+            <CategoryCard category={cat} pageCount={(pagesByCategory.get(cat.id) ?? []).length} />
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+</Layout>

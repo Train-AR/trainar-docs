@@ -1,0 +1,50 @@
+---
+import type { DocCategory, DocPage } from '../lib/supabase';
+import { getIcon } from '../lib/icons';
+
+export interface Props {
+  categories: DocCategory[];
+  pagesByCategory: Map<string, DocPage[]>;
+  activeCategorySlug?: string;
+  activePageSlug?: string;
+}
+
+const { categories, pagesByCategory, activeCategorySlug, activePageSlug } = Astro.props;
+---
+
+<aside class="hidden lg:block w-64 shrink-0 border-r border-slate-200 bg-white">
+  <nav class="sticky top-16 max-h-[calc(100vh-4rem)] overflow-y-auto p-4">
+    <ul class="space-y-1">
+      {categories.map((cat) => {
+        const Icon = getIcon(cat.icon);
+        const pages = pagesByCategory.get(cat.id) ?? [];
+        const isActive = activeCategorySlug === cat.slug;
+        return (
+          <li>
+            <a
+              href={`/${cat.slug}`}
+              class={`group flex items-center gap-2.5 rounded-md px-2.5 py-1.5 text-sm transition ${isActive ? 'bg-blue-50 text-blue-700 font-medium' : 'text-slate-700 hover:bg-slate-100'}`}
+            >
+              <Icon class={`w-4 h-4 ${isActive ? 'text-blue-600' : 'text-slate-400 group-hover:text-slate-600'}`} />
+              <span class="truncate">{cat.name}</span>
+            </a>
+            {isActive && pages.length > 0 && (
+              <ul class="ml-6 mt-1 mb-2 space-y-0.5 border-l border-slate-200 pl-3">
+                {pages.map((p) => (
+                  <li>
+                    <a
+                      href={`/${cat.slug}/${p.slug}`}
+                      class={`block rounded px-2 py-1 text-sm transition ${activePageSlug === p.slug ? 'text-blue-700 font-medium' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'}`}
+                    >
+                      {p.title}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </li>
+        );
+      })}
+    </ul>
+  </nav>
+</aside>
