@@ -46,36 +46,36 @@ for (const p of allPages) {
       activeCategorySlug={category.slug}
     />
 
-    <div class="flex-1 px-4 sm:px-6 lg:px-10 py-10">
+    <div class="flex-1 px-4 sm:px-6 lg:px-10 py-12">
       <div class="max-w-4xl">
-        <nav class="mb-6 flex items-center gap-2 text-sm text-slate-500">
-          <a href="/" class="hover:text-slate-900 transition">Docs</a>
-          <span class="text-slate-300">/</span>
-          <span class="text-slate-900">{category.name}</span>
+        <nav class="mb-6 flex items-center gap-2 text-sm text-[#6B7280]">
+          <a href="/" class="hover:text-[#0074FF] transition">Docs</a>
+          <span class="text-[#CBD5E1]">/</span>
+          <span class="text-[#121621] font-medium">{category.name}</span>
         </nav>
 
-        <div class="mb-8 flex items-start gap-4">
-          <span class="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-blue-50 text-blue-600">
-            <Icon class="h-6 w-6" />
+        <div class="mb-10 flex items-start gap-5">
+          <span class="inline-flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-[#E8F2FF] to-[#C8DEFF] text-[#0074FF] shadow-[0_4px_20px_hsla(212,100%,50%,0.15)]">
+            <Icon class="h-7 w-7" />
           </span>
           <div>
-            <h1 class="text-3xl font-bold tracking-tight text-slate-900">{category.name}</h1>
-            <p class="mt-2 text-base text-slate-600">{category.description}</p>
+            <h1 class="font-[var(--font-display)] text-4xl sm:text-5xl font-bold tracking-tight text-[#121621] uppercase leading-[1.05]">{category.name}</h1>
+            <p class="mt-3 text-lg text-[#4B5563] leading-relaxed">{category.description}</p>
           </div>
         </div>
 
-        <ul class="divide-y divide-slate-200 rounded-xl border border-slate-200 bg-white shadow-sm overflow-hidden">
+        <ul class="divide-y divide-[#E2E8F0] rounded-2xl border border-[#E2E8F0] bg-white shadow-[0_1px_2px_hsla(228,29%,10%,0.05)] overflow-hidden">
           {pages.map((p) => (
             <li>
               <a
                 href={`/${category.slug}/${p.slug}`}
-                class="block px-5 py-4 hover:bg-slate-50 transition"
+                class="block px-6 py-5 hover:bg-[#F8FAFC] transition group"
               >
                 <div class="flex items-baseline justify-between gap-4">
-                  <span class="text-base font-medium text-slate-900">{p.title}</span>
-                  <span class="text-xs text-slate-400">Updated {new Date(p.updated_at).toLocaleDateString('en-GB', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
+                  <span class="text-base font-semibold text-[#121621] group-hover:text-[#0074FF] transition">{p.title}</span>
+                  <span class="text-xs uppercase tracking-wider font-medium text-[#9CA3AF] shrink-0">Updated {new Date(p.updated_at).toLocaleDateString('en-GB', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
                 </div>
-                {p.excerpt && <p class="mt-1 text-sm text-slate-600 line-clamp-2">{p.excerpt}</p>}
+                {p.excerpt && <p class="mt-1.5 text-sm text-[#4B5563] line-clamp-2 leading-relaxed">{p.excerpt}</p>}
               </a>
             </li>
           ))}

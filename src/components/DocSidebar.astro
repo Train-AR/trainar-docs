@@ -12,9 +12,9 @@ export interface Props {
 const { categories, pagesByCategory, activeCategorySlug, activePageSlug } = Astro.props;
 ---
 
-<aside class="hidden lg:block w-64 shrink-0 border-r border-slate-200 bg-white">
+<aside class="hidden lg:block w-64 shrink-0 border-r border-[#E2E8F0] bg-gradient-to-b from-white to-[#F8FAFC]">
   <nav class="sticky top-16 max-h-[calc(100vh-4rem)] overflow-y-auto p-4">
-    <ul class="space-y-1">
+    <ul class="space-y-0.5">
       {categories.map((cat) => {
         const Icon = getIcon(cat.icon);
         const pages = pagesByCategory.get(cat.id) ?? [];
@@ -23,18 +23,18 @@ const { categories, pagesByCategory, activeCategorySlug, activePageSlug } = Astr
           <li>
             <a
               href={`/${cat.slug}`}
-              class={`group flex items-center gap-2.5 rounded-md px-2.5 py-1.5 text-sm transition ${isActive ? 'bg-blue-50 text-blue-700 font-medium' : 'text-slate-700 hover:bg-slate-100'}`}
+              class={`group flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition ${isActive ? 'bg-gradient-to-br from-[#E8F2FF] to-[hsla(212,100%,50%,0.08)] text-[#0052B3] font-semibold' : 'text-[#374151] hover:bg-[#F1F5F9]'}`}
             >
-              <Icon class={`w-4 h-4 ${isActive ? 'text-blue-600' : 'text-slate-400 group-hover:text-slate-600'}`} />
+              <Icon class={`w-[18px] h-[18px] ${isActive ? 'text-[#0074FF]' : 'text-[#6B7280] group-hover:text-[#374151]'}`} />
               <span class="truncate">{cat.name}</span>
             </a>
             {isActive && pages.length > 0 && (
-              <ul class="ml-6 mt-1 mb-2 space-y-0.5 border-l border-slate-200 pl-3">
+              <ul class="ml-7 mt-1 mb-2 space-y-0.5 border-l-2 border-[#C8DEFF] pl-3">
                 {pages.map((p) => (
                   <li>
                     <a
                       href={`/${cat.slug}/${p.slug}`}
-                      class={`block rounded px-2 py-1 text-sm transition ${activePageSlug === p.slug ? 'text-blue-700 font-medium' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'}`}
+                      class={`block rounded-md px-2.5 py-1.5 text-[13px] transition ${activePageSlug === p.slug ? 'text-[#0074FF] font-semibold bg-[#E8F2FF]' : 'text-[#4B5563] hover:text-[#121621] hover:bg-[#F1F5F9]'}`}
                     >
                       {p.title}
                     </a>

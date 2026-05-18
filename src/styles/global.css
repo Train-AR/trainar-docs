@@ -1,1 +1,163 @@
 @import "tailwindcss";
+
+/* ────────────────────────────────────────────────────────────
+   TrainAR Design System tokens
+   Source: Assets/TrainAR Design System.zip → colors_and_type.css
+   ──────────────────────────────────────────────────────────── */
+
+@font-face {
+  font-family: "D-DIN Condensed";
+  src: url("/fonts/D-DINCondensed.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "D-DIN Condensed";
+  src: url("/fonts/D-DINCondensed-Bold.otf") format("opentype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Roboto";
+  src: url("/fonts/Roboto-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Roboto";
+  src: url("/fonts/Roboto-Black.ttf") format("truetype");
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Montserrat";
+  src: url("/fonts/Montserrat-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Montserrat";
+  src: url("/fonts/Montserrat-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  /* Core brand colors (verbatim from TRAINAR Brandkit 2025) */
+  --ta-primary:       #0074FF;
+  --ta-primary-50:    #E8F2FF;
+  --ta-primary-100:   #C8DEFF;
+  --ta-primary-200:   #8FBEFF;
+  --ta-primary-400:   #338CFF;
+  --ta-primary-500:   #0074FF;
+  --ta-primary-600:   #0066DD;
+  --ta-primary-700:   #0052B3;
+  --ta-primary-900:   #002F66;
+
+  --ta-secondary:     #121621;   /* navy */
+  --ta-navy-700:      #1B2235;
+  --ta-navy-800:      #161B2A;
+  --ta-navy-900:      #121621;
+  --ta-navy-950:      #0B0E17;
+
+  --ta-accent:        #3BFFBF;   /* mint */
+  --ta-accent-300:    #82FFD5;
+  --ta-accent-500:    #3BFFBF;
+  --ta-accent-700:    #00D69C;
+  --ta-accent-900:    #006B4E;
+
+  --ta-grey-50:       #F8FAFC;
+  --ta-grey-100:      #F1F5F9;
+  --ta-grey-200:      #E5E9F0;
+  --ta-grey-300:      #DEDEDE;
+  --ta-grey-400:      #C0C7D2;
+  --ta-grey-500:      #6B7280;
+  --ta-grey-600:      #4B5563;
+  --ta-grey-700:      #374151;
+  --ta-grey-800:      #1F2937;
+
+  /* Semantic */
+  --bg:               #F7FAFC;
+  --bg-elevated:      #FFFFFF;
+  --bg-muted:         #F1F5F9;
+  --fg:               var(--ta-navy-900);
+  --fg-2:             #4B5563;
+  --fg-3:             #6B7280;
+  --border:           #E2E8F0;
+  --border-strong:    #CBD5E1;
+
+  --success:          #10B981;
+  --success-bg:       #ECFDF5;
+  --warning:          #F59E0B;
+  --warning-bg:       #FFFBEB;
+  --danger:           #EF4444;
+  --danger-bg:        #FEF2F2;
+  --info:             var(--ta-primary);
+  --info-bg:          var(--ta-primary-50);
+
+  /* Radii */
+  --radius-sm:        8px;
+  --radius-md:        12px;
+  --radius-lg:        16px;
+
+  /* Shadows (brand-blue elevation system) */
+  --shadow-xs:        0 1px 2px hsla(228, 29%, 10%, 0.05);
+  --shadow-sm:        0 2px 6px hsla(228, 29%, 10%, 0.06);
+  --shadow-brand:     0 4px 20px hsla(212, 100%, 50%, 0.15);
+  --shadow-brand-lg:  0 8px 30px hsla(212, 100%, 50%, 0.20);
+
+  /* Gradients */
+  --grad-hero:        linear-gradient(135deg, #0074FF 0%, #3BFFBF 100%);
+  --grad-button:      linear-gradient(180deg, #0074FF 0%, #005FD1 100%);
+  --grad-button-hover: linear-gradient(180deg, #1A86FF 0%, #006FE6 100%);
+
+  /* Typography */
+  --font-display:     "D-DIN Condensed", "Roboto Condensed", -apple-system, "Segoe UI", sans-serif;
+  --font-body:        "Roboto", "Roboto Condensed", -apple-system, "Segoe UI", sans-serif;
+  --font-ui:          "Montserrat", "Inter", "Roboto", -apple-system, "Segoe UI", sans-serif;
+  --font-mono:        "JetBrains Mono", "SFMono-Regular", Menlo, Consolas, monospace;
+}
+
+/* Map Tailwind v4 theme tokens to TrainAR tokens */
+@theme {
+  --color-brand-50:  #E8F2FF;
+  --color-brand-100: #C8DEFF;
+  --color-brand-200: #8FBEFF;
+  --color-brand-400: #338CFF;
+  --color-brand-500: #0074FF;
+  --color-brand-600: #0066DD;
+  --color-brand-700: #0052B3;
+  --color-brand-900: #002F66;
+
+  --color-navy-700: #1B2235;
+  --color-navy-800: #161B2A;
+  --color-navy-900: #121621;
+  --color-navy-950: #0B0E17;
+
+  --color-mint-300: #82FFD5;
+  --color-mint-500: #3BFFBF;
+  --color-mint-700: #00D69C;
+
+  --font-display: "D-DIN Condensed", "Roboto Condensed", system-ui, sans-serif;
+  --font-body:    "Roboto", "Roboto Condensed", system-ui, sans-serif;
+  --font-ui:      "Montserrat", "Inter", "Roboto", system-ui, sans-serif;
+  --font-mono:    "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+
+html {
+  font-family: var(--font-ui);
+  color: var(--fg);
+  background: var(--bg);
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  font-family: var(--font-ui);
+}
