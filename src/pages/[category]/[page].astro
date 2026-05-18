@@ -1,6 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import DocSidebar from '../../components/DocSidebar.astro';
+import MobileNav from '../../components/MobileNav.astro';
 import { fetchCategories, fetchPublishedPages, type DocCategory, type DocPage } from '../../lib/supabase';
 import { getIcon } from '../../lib/icons';
 import { marked } from 'marked';
@@ -57,6 +58,12 @@ const updatedDate = new Date(page.updated_at).toLocaleDateString('en-GB', { day:
   canonicalPath={`/${category.slug}/${page.slug}`}
   ogImage={ogImage}
 >
+  <MobileNav
+    categories={allCategories}
+    pagesByCategory={pagesByCategory}
+    activeCategorySlug={category.slug}
+    activePageSlug={page.slug}
+  />
   <div class="mx-auto max-w-7xl flex">
     <DocSidebar
       categories={allCategories}

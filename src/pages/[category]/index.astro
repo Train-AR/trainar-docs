@@ -1,6 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import DocSidebar from '../../components/DocSidebar.astro';
+import MobileNav from '../../components/MobileNav.astro';
 import { fetchCategories, fetchPublishedPages, type DocCategory, type DocPage } from '../../lib/supabase';
 import { getIcon } from '../../lib/icons';
 
@@ -39,6 +40,11 @@ for (const p of allPages) {
   description={category.description ?? `Documentation for ${category.name} in TrainAR.`}
   canonicalPath={`/${category.slug}`}
 >
+  <MobileNav
+    categories={allCategories}
+    pagesByCategory={pagesByCategory}
+    activeCategorySlug={category.slug}
+  />
   <div class="mx-auto max-w-7xl flex">
     <DocSidebar
       categories={allCategories}

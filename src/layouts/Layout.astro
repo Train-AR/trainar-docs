@@ -46,11 +46,27 @@ const canonical = `${siteUrl}${canonicalPath}`;
   </head>
   <body class="min-h-screen flex flex-col bg-[#F7FAFC] text-[#121621] font-[var(--font-ui)]">
     <header class="border-b border-[#E2E8F0] bg-white sticky top-0 z-30 backdrop-blur-sm">
-      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
-        <a href="/" class="flex items-center gap-2.5 hover:opacity-90 transition">
-          <img src="/brand/logo-180.png" alt="TrainAR" width="120" height="32" class="h-7 w-auto" />
-          <span class="text-xs font-bold uppercase tracking-widest text-[#0074FF] px-2 py-0.5 rounded bg-[#E8F2FF]">Docs</span>
-        </a>
+      <div class="mx-auto max-w-7xl px-3 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-2 sm:gap-4">
+        <div class="flex items-center gap-2">
+          <button
+            id="mobile-nav-toggle"
+            type="button"
+            class="lg:hidden inline-flex items-center justify-center h-9 w-9 rounded-lg text-[#374151] hover:bg-[#F1F5F9] transition"
+            aria-label="Open documentation menu"
+            aria-controls="mobile-nav-drawer"
+            aria-expanded="false"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="4" y1="6" x2="20" y2="6"></line>
+              <line x1="4" y1="12" x2="20" y2="12"></line>
+              <line x1="4" y1="18" x2="20" y2="18"></line>
+            </svg>
+          </button>
+          <a href="/" class="flex items-center gap-2 sm:gap-2.5 hover:opacity-90 transition">
+            <img src="/brand/logo-180.png" alt="TrainAR" width="120" height="32" class="h-6 sm:h-7 w-auto" />
+            <span class="text-[10px] sm:text-xs font-bold uppercase tracking-widest text-[#0074FF] px-1.5 sm:px-2 py-0.5 rounded bg-[#E8F2FF]">Docs</span>
+          </a>
+        </div>
 
         <nav class="hidden md:flex items-center gap-7 text-sm font-medium text-[#4B5563]">
           <a href="https://trainar.ai" class="hover:text-[#121621] transition">Product</a>
@@ -58,14 +74,14 @@ const canonical = `${siteUrl}${canonicalPath}`;
           <a href="https://dashboard.trainar.ai" class="hover:text-[#121621] transition">Dashboard</a>
         </nav>
 
-        <div class="flex items-center gap-3">
+        <div class="flex items-center gap-2 sm:gap-3">
           <a href="https://dashboard.trainar.ai/auth/login" class="hidden sm:inline text-sm font-medium text-[#4B5563] hover:text-[#121621] transition">Sign in</a>
           <a
             href="https://dashboard.trainar.ai/auth/signup"
-            class="inline-flex items-center rounded-[12px] px-4 py-2 text-sm font-semibold text-white shadow-[0_4px_20px_hsla(212,100%,50%,0.15)] hover:shadow-[0_8px_30px_hsla(212,100%,50%,0.20)] transition-all"
+            class="inline-flex items-center rounded-[12px] px-3 sm:px-4 py-2 text-xs sm:text-sm font-semibold text-white shadow-[0_4px_20px_hsla(212,100%,50%,0.15)] hover:shadow-[0_8px_30px_hsla(212,100%,50%,0.20)] transition-all whitespace-nowrap"
             style="background: linear-gradient(180deg, #0074FF 0%, #005FD1 100%);"
           >
-            Try TrainAR Free
+            Try Free
           </a>
         </div>
       </div>

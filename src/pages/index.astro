@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import DocSidebar from '../components/DocSidebar.astro';
+import MobileNav from '../components/MobileNav.astro';
 import CategoryCard from '../components/CategoryCard.astro';
 import { fetchCategories, fetchPublishedPages } from '../lib/supabase';
 
@@ -17,10 +18,11 @@ for (const p of pages) {
   description="Set up TrainAR, connect your field-service tools, deploy on AR glasses, and turn senior engineers' know-how into multi-modal training."
   canonicalPath="/"
 >
+  <MobileNav categories={categories} pagesByCategory={pagesByCategory} />
   <div class="mx-auto max-w-7xl flex">
     <DocSidebar categories={categories} pagesByCategory={pagesByCategory} />
 
-    <div class="flex-1 px-4 sm:px-6 lg:px-10 py-12">
+    <div class="flex-1 px-4 sm:px-6 lg:px-10 py-10 sm:py-12">
       <div class="max-w-4xl">
         <div class="mb-12">
           <span class="inline-flex items-center rounded-full bg-[#E8F2FF] px-3 py-1 text-xs font-bold uppercase tracking-widest text-[#0074FF]">Documentation</span>
