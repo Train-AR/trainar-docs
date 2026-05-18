@@ -1,0 +1,89 @@
+---
+export interface Props {
+  pageSlug: string;
+  pageTitle: string;
+}
+const { pageSlug, pageTitle } = Astro.props;
+---
+
+<aside class="mt-16 rounded-2xl border border-[#E2E8F0] bg-white p-6 sm:p-7" data-feedback-widget data-page-slug={pageSlug} data-page-title={pageTitle}>
+  <div class="feedback-initial flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6">
+    <p class="text-base font-semibold text-[#121621]">Was this page helpful?</p>
+    <div class="flex items-center gap-2">
+      <button type="button" data-fb-vote="up" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-[#E2E8F0] text-sm font-medium text-[#374151] hover:border-[#3BFFBF] hover:text-[#121621] hover:bg-[#3BFFBF]/10 transition">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 10v12M15 5.88L14 10h5.83a2 2 0 011.92 2.56l-2.33 8A2 2 0 0117.5 22H7"/></svg>
+        Yes
+      </button>
+      <button type="button" data-fb-vote="down" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-[#E2E8F0] text-sm font-medium text-[#374151] hover:border-[#FB7185] hover:text-[#121621] hover:bg-[#FB7185]/10 transition">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 14V2M9 18.12L10 14H4.17a2 2 0 01-1.92-2.56l2.33-8A2 2 0 016.5 2H17"/></svg>
+        No
+      </button>
+    </div>
+  </div>
+
+  <div class="feedback-details hidden">
+    <p class="text-base font-semibold text-[#121621] mb-3"><span class="fb-prompt"></span></p>
+    <textarea class="fb-comment block w-full rounded-lg border border-[#E2E8F0] bg-white px-4 py-2.5 text-sm text-[#121621] focus:border-[#0074FF] focus:ring-2 focus:ring-[#0074FF]/20 outline-none transition" rows="3" placeholder="Optional — tell us more so we can fix it"></textarea>
+    <div class="mt-3 flex items-center gap-3">
+      <button type="button" data-fb-submit class="inline-flex items-center rounded-[12px] px-4 py-2 text-sm font-semibold text-white shadow-[0_4px_20px_hsla(212,100%,50%,0.15)] hover:shadow-[0_8px_30px_hsla(212,100%,50%,0.20)] transition-all" style="background: linear-gradient(180deg, #0074FF 0%, #005FD1 100%);">Submit</button>
+      <button type="button" data-fb-skip class="text-sm text-[#6B7280] hover:text-[#121621] transition">Skip</button>
+    </div>
+  </div>
+
+  <div class="feedback-thanks hidden">
+    <p class="text-base font-semibold text-[#121621]">Thanks — noted.</p>
+    <p class="mt-1 text-sm text-[#6B7280]">We use this to spot pages that need work.</p>
+  </div>
+</aside>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-feedback-widget]').forEach((widget) => {
+    const initial = widget.querySelector<HTMLElement>('.feedback-initial')!;
+    const details = widget.querySelector<HTMLElement>('.feedback-details')!;
+    const thanks = widget.querySelector<HTMLElement>('.feedback-thanks')!;
+    const prompt = widget.querySelector<HTMLElement>('.fb-prompt')!;
+    const commentEl = widget.querySelector<HTMLTextAreaElement>('.fb-comment')!;
+    const submitBtn = widget.querySelector<HTMLButtonElement>('[data-fb-submit]')!;
+    const skipBtn = widget.querySelector<HTMLButtonElement>('[data-fb-skip]')!;
+    const pageSlug = widget.dataset.pageSlug ?? '';
+    const pageTitle = widget.dataset.pageTitle ?? '';
+    let currentVote: 'up' | 'down' | null = null;
+
+    const send = async (vote: 'up' | 'down', comment: string) => {
+      try {
+        await fetch('https://api.trainar.ai/v1/submit-doc-feedback', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ page_slug: pageSlug, page_title: pageTitle, vote, comment, url: location.href }),
+        });
+      } catch {
+        // silent — feedback is best-effort
+      }
+    };
+
+    widget.querySelectorAll<HTMLButtonElement>('[data-fb-vote]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        currentVote = btn.dataset.fbVote === 'up' ? 'up' : 'down';
+        initial.classList.add('hidden');
+        details.classList.remove('hidden');
+        prompt.textContent = currentVote === 'up'
+          ? "What worked? (Optional)"
+          : "What's missing or wrong? (Optional)";
+        commentEl.focus();
+      });
+    });
+
+    submitBtn.addEventListener('click', async () => {
+      if (!currentVote) return;
+      await send(currentVote, commentEl.value.trim());
+      details.classList.add('hidden');
+      thanks.classList.remove('hidden');
+    });
+
+    skipBtn.addEventListener('click', async () => {
+      if (currentVote) await send(currentVote, '');
+      details.classList.add('hidden');
+      thanks.classList.remove('hidden');
+    });
+  });
+</script>

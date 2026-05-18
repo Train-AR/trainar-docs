@@ -28,6 +28,19 @@ interface Props {
 const { category, pages, allCategories, allPages } = Astro.props;
 const Icon = getIcon(category.icon);
 
+// Per-page logo overrides — surfaces an inline brand mark on category index rows
+const pageLogos: Record<string, string> = {
+  'integrations/servicem8-integration': '/integrations/servicem8-logo.png',
+  'integrations/servicem8-setup-guide': '/integrations/servicem8-logo.png',
+  'integrations/jobber': '/integrations/jobber-logo.png',
+  'integrations/commusoft': '/integrations/commusoft-logo.png',
+  'integrations/simpro': '/integrations/simpro-logo.png',
+  'integrations/zapier': '/integrations/zapier-logo.png',
+  'integrations/n8n': '/integrations/n8n-logo.svg',
+  'marketplace/parts-and-spares': '/integrations/parts-arena-logo.png',
+};
+const logoFor = (pageSlug: string) => pageLogos[`${category.slug}/${pageSlug}`] ?? null;
+
 const pagesByCategory = new Map<string, DocPage[]>();
 for (const p of allPages) {
   if (!pagesByCategory.has(p.category_id)) pagesByCategory.set(p.category_id, []);
@@ -71,20 +84,32 @@ for (const p of allPages) {
         </div>
 
         <ul class="divide-y divide-[#E2E8F0] rounded-2xl border border-[#E2E8F0] bg-white shadow-[0_1px_2px_hsla(228,29%,10%,0.05)] overflow-hidden">
-          {pages.map((p) => (
-            <li>
-              <a
-                href={`/${category.slug}/${p.slug}`}
-                class="block px-6 py-5 hover:bg-[#F8FAFC] transition group"
-              >
-                <div class="flex items-baseline justify-between gap-4">
-                  <span class="text-base font-semibold text-[#121621] group-hover:text-[#0074FF] transition">{p.title}</span>
-                  <span class="text-xs uppercase tracking-wider font-medium text-[#9CA3AF] shrink-0">Updated {new Date(p.updated_at).toLocaleDateString('en-GB', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
-                </div>
-                {p.excerpt && <p class="mt-1.5 text-sm text-[#4B5563] line-clamp-2 leading-relaxed">{p.excerpt}</p>}
-              </a>
-            </li>
-          ))}
+          {pages.map((p) => {
+            const logo = logoFor(p.slug);
+            return (
+              <li>
+                <a
+                  href={`/${category.slug}/${p.slug}`}
+                  class="block px-6 py-5 hover:bg-[#F8FAFC] transition group"
+                >
+                  <div class="flex items-start gap-4">
+                    {logo && (
+                      <span class="shrink-0 inline-flex h-12 w-12 items-center justify-center rounded-lg border border-[#E2E8F0] bg-white">
+                        <img src={logo} alt="" class="max-h-9 max-w-9 object-contain" />
+                      </span>
+                    )}
+                    <div class="flex-1 min-w-0">
+                      <div class="flex items-baseline justify-between gap-4">
+                        <span class="text-base font-semibold text-[#121621] group-hover:text-[#0074FF] transition">{p.title}</span>
+                        <span class="text-xs uppercase tracking-wider font-medium text-[#9CA3AF] shrink-0">Updated {new Date(p.updated_at).toLocaleDateString('en-GB', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
+                      </div>
+                      {p.excerpt && <p class="mt-1.5 text-sm text-[#4B5563] line-clamp-2 leading-relaxed">{p.excerpt}</p>}
+                    </div>
+                  </div>
+                </a>
+              </li>
+            );
+          })}
         </ul>
       </div>
     </div>

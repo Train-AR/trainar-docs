@@ -153,9 +153,19 @@
 html {
   font-family: var(--font-ui);
   color: var(--fg);
-  background: var(--bg);
+  /* Solid white at the root so the iOS Safari safe-area / notch region is always
+     white — no page content can bleed through Safari's translucent overlay. */
+  background: #ffffff;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
+  /* Reserve space for the iOS notch so layout calculations have it from the html level. */
+  padding-top: env(safe-area-inset-top);
+  background-color: #ffffff;
+}
+
+html, body {
+  /* iOS Safari only paints the safe area with this when overscroll happens. */
+  overscroll-behavior-y: none;
 }
 
 body {

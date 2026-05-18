@@ -23,7 +23,9 @@ const canonical = `${siteUrl}${canonicalPath}`;
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <link rel="icon" type="image/png" href="/brand/icon.png" />
     <title>{title}</title>
     <meta name="description" content={description} />
@@ -45,7 +47,7 @@ const canonical = `${siteUrl}${canonicalPath}`;
     <meta name="generator" content={Astro.generator} />
   </head>
   <body class="min-h-screen flex flex-col bg-[#F7FAFC] text-[#121621] font-[var(--font-ui)]">
-    <header class="border-b border-[#E2E8F0] bg-white sticky top-0 z-30 backdrop-blur-sm">
+    <header class="border-b border-[#E2E8F0] sticky top-0 z-50" style="background-color: #ffffff;">
       <div class="mx-auto max-w-7xl px-3 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-2 sm:gap-4">
         <div class="flex items-center gap-2">
           <button
